@@ -45,6 +45,7 @@ def time_splitting(df):
     df['Start_Date'] = df['Start_Time'].dt.date
     df['Start_Hour'] = df['Start_Time'].dt.hour
     df['Month'] = df['Start_Time'].dt.month_name()
+    df['Year'] = df['Start_Time'].dt.year()
     # May add Day of the week later
     
     # endtime splitting 
@@ -52,6 +53,8 @@ def time_splitting(df):
     df['End_Date'] = df['End_Time'].dt.date
     df['End_Hour'] = df['End_Time'].dt.hour
     # Dont need to add month and day of the week
+    
+   
     
 def convert_booleans(df):
     bool_columns = df.select_dtypes(include=['bool']).columns
@@ -72,6 +75,8 @@ def dropredundantlocations(df):
 def time_features(df):
     df['Day_of_Week'] = df['Start_Time'].dt.day_name()
     df['Is_Weekend'] = df['Day_of_Week'].isin(['Saturday', 'Sunday']).astype(int)
+     #drop the original 'Start_Time' and 'End_Time' columns
+    df.drop(columns=['Start_Time', 'End_Time'], axis=1 ,inplace=True)
     
         
 def feature_engineering(df):
@@ -88,15 +93,18 @@ def main():
     
     print(df.columns.to_list())
     
+   
+    
     
     #severity_distribution(df)
     #weather_condition_distribution(df)
     #top_accident_locations(df)
     #accident_by_timeofday(df)
+    
     #print(df.columns.to_list())
     
     #uncomment later but for this will run faster
-    #df.to_csv('data/cleaned_US_Accidents_March23.csv', index=False)
+    df.to_csv('data/cleaned_US_Accidents_March23.csv', index=False)
     
 
     #print("\n Data Info")
