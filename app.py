@@ -7,7 +7,7 @@ def load_data(filepath):
     print("Data loaded successfully.")
     
     columns_to_drop = ['Description','Civil_Twilight','Nautical_Twilight','Country',
-                       'Street','Zipcode', 'Airport_Code','Astronomical_Twilight','ID']
+                       'Weather_Timestamp','Wind_Direction','Zipcode', 'Airport_Code','Astronomical_Twilight','ID']
     # Drop unnecessary columns
     df.drop(columns = columns_to_drop, axis=1, inplace=True)
     #print(df.head())
@@ -45,7 +45,7 @@ def time_splitting(df):
     df['Start_Date'] = df['Start_Time'].dt.date
     df['Start_Hour'] = df['Start_Time'].dt.hour
     df['Month'] = df['Start_Time'].dt.month_name()
-    df['Year'] = df['Start_Time'].dt.year()
+    df['Year'] = df['Start_Time'].dt.year
     # May add Day of the week later
     
     # endtime splitting 
