@@ -1,0 +1,4 @@
+install pandas
+install numpy
+install matplotlib seaborn
+install scikit-learn

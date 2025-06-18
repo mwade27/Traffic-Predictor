@@ -1,5 +1,6 @@
 import pandas as pd
 from eda import severity_distribution, weather_condition_distribution, top_accident_locations, accident_by_timeofday
+from mlmodel import check_data_integrity
 #May need to drop Start_time and End_time later after feature engineering
 filepath = 'data/US_Accidents_March23.csv'
 def load_data(filepath):
@@ -37,7 +38,7 @@ def handle_missing_values(df):
     for col in num_columns:
         df[col] = df[col].fillna(df[col].median())
         
-        
+#Splitting time columns into separate features for better analysis and visualization
 def time_splitting(df):
     # Convert 'Start_Time' and 'End_Time' to datetime format
     # starttime splitting
@@ -55,12 +56,13 @@ def time_splitting(df):
     # Dont need to add month and day of the week
     
    
-    
+#Convert boolean columns to integers (0 and 1) for better compatibility with Power BI and other tools
 def convert_booleans(df):
     bool_columns = df.select_dtypes(include=['bool']).columns
     df[bool_columns] = df[bool_columns].astype(int)
     print(f"Converted boolean columns to integers.{list(bool_columns)}")
     
+# if locations are highly correlated, drop one of them    
 def dropredundantlocations(df):
     if 'Start_Lat' in df.columns and 'End_Lat' in df.columns:
         correlationlocations = df[['Start_Lat', 'End_Lat']].corr().iloc[0,1]
@@ -83,6 +85,13 @@ def feature_engineering(df):
     convert_booleans(df)
     dropredundantlocations(df)
     time_features(df)
+
+
+
+    # drop Start_Lat and Start_Lng,Distance,City and Street since they have over 10k unique values
+    
+
+
     
 def main():
     # Load the dataset
@@ -91,7 +100,10 @@ def main():
     time_splitting(df)
     feature_engineering(df)
     
-    print(df.columns.to_list())
+    #print(df.columns.to_list())
+    df_ml = df.copy()
+    check_data_integrity(df_ml)
+
     
    
     
@@ -104,7 +116,7 @@ def main():
     #print(df.columns.to_list())
     
     #uncomment later but for this will run faster
-    df.to_csv('data/cleaned_US_Accidents_March23.csv', index=False)
+    #df.to_csv('data/cleaned_US_Accidents_March23.csv', index=False)
     
 
     #print("\n Data Info")
