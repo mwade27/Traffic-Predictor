@@ -1,13 +1,13 @@
 import pandas as pd
 from eda import severity_distribution, weather_condition_distribution, top_accident_locations, accident_by_timeofday
-from mlmodel import check_data_integrity
+from mlmodel import check_data_integrity, train_test_split_data
 #May need to drop Start_time and End_time later after feature engineering
 filepath = 'data/US_Accidents_March23.csv'
 def load_data(filepath):
-    df = pd.read_csv(filepath)
+    df = pd.read_csv(filepath, nrows=1000000)
     print("Data loaded successfully.")
     
-    columns_to_drop = ['Description','Civil_Twilight','Nautical_Twilight','Country',
+    columns_to_drop = ['Source','Description','Civil_Twilight','Nautical_Twilight','Country',
                        'Weather_Timestamp','Wind_Direction','Zipcode', 'Airport_Code','Astronomical_Twilight','ID']
     # Drop unnecessary columns
     df.drop(columns = columns_to_drop, axis=1, inplace=True)
@@ -100,10 +100,14 @@ def main():
     time_splitting(df)
     feature_engineering(df)
     
-    #print(df.columns.to_list())
+    #print(df.columns)
     df_ml = df.copy()
-    check_data_integrity(df_ml)
-
+    #print(df_ml.columns)
+    df_ml = check_data_integrity(df_ml)
+    #print("\n Data Info after processing")
+    #print(df_ml.info())
+    #print(df_ml.columns.to_list())
+    train_test_split_data(df_ml)
     
    
     
