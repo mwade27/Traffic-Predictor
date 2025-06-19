@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import time
+from imblearn.over_sampling import SMOTE
 
 def check_data_integrity(df):
     print("\n Checking for missing values after processing:")
@@ -47,7 +48,7 @@ def check_data_integrity(df):
         print(f"One-hot encoding these columns: {categorical_columns}")
         df = pd.get_dummies(df, columns=categorical_columns, drop_first=True)
     #print(df.columns.to_list())
-    print("\nOne-hot encoding applied to categorical columns.")
+    #print("\nOne-hot encoding applied to categorical columns.")
     
     print("\nFinal DataFrame info:")
     print(df.info())
@@ -64,8 +65,7 @@ def train_test_split_data(df):
 
     # X is all the columns except 'Severity'
     #print(df.columns.to_list())
-    for col in df.columns:
-        print(f"{col}: {df[col].dtype}")
+    
 
     X = df.drop(columns=['Severity'])
     #print(X.dtypes)
@@ -74,14 +74,24 @@ def train_test_split_data(df):
     # y is the 'Severity' column
     y = df['Severity']
 
-    non_numeric_columns = X.select_dtypes(include=['object']).columns
-    if len(non_numeric_columns) > 0:
-        print(f"Non-numeric columns found: {non_numeric_columns}")
-        raise ValueError("All columns in X must be numeric before training the model.")
+    #non_numeric_columns = X.select_dtypes(include=['object']).columns
+    #if len(non_numeric_columns) > 0:
+    #    print(f"Non-numeric columns found: {non_numeric_columns}")
+    #    raise ValueError("All columns in X must be numeric before training the model.")
+
+    """
+    Training with SMOTE (Synthetic Minority Over-sampling Technique) to handle class imbalance
+    Should help with the imbalance in the dataset with the level 4 severity being underrepresented
+    Dont use SMOTE in the testing phase, only in the training phase
+    """
+    
+
 
     print("Testing is starting")
     start_time = time.time()
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    sm = SMOTE(random_state=42)
+    X_train_smote, y_train_smote = sm.fit_resample(X_train, y_train)
 
     # Initialize the Random Forest Classifier
     #n_estimators = number of trees 
@@ -89,7 +99,11 @@ def train_test_split_data(df):
     model = RandomForestClassifier(n_estimators=100, random_state=42)
 
     # Fit the model on the training data
-    model.fit(X_train, y_train)
+    model.fit(X_train_smote, y_train_smote)
+
+    print("Before SMOTE:", y_train.value_counts())
+    print("After SMOTE:", pd.Series(y_train_smote).value_counts())
+
 
     # Make predictions on the test data
     y_pred = model.predict(X_test)
