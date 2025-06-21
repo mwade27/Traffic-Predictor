@@ -15,6 +15,15 @@ def weather_condition_distribution(df):
     sns.countplot(data=df, x='Weather_Condition', order=df['Weather_Condition'].value_counts().head(10).index, hue='Severity')
     plt.title('Severity of Accidents based on Weather Conditions')
     plt.show()
+    
+    top_conditions = df['Weather_Condition'].value_counts().head(10).index
+    filtered_df = df[df['Weather_Condition'].isin(top_conditions)]
+    sns.barplot(data=filtered_df, x='Weather_Condition', y='Severity', order=top_conditions)
+    plt.title('Average Severity by Weather Condition')
+    plt.xlabel('Weather Condition')
+    plt.ylabel('Average Severity')
+    plt.xticks(rotation=45)
+    plt.show()
 
 def top_accident_locations(df):
     top_10cities = df['City'].value_counts().head(20)
@@ -37,4 +46,5 @@ def accident_by_timeofday(df):
     plt.xlabel('Hour of Day')
     plt.ylabel('Number of Accidents')
     plt.show()
-    
+
+

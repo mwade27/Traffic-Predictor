@@ -4,7 +4,7 @@ from mlmodel import check_data_integrity, train_test_split_data
 #May need to drop Start_time and End_time later after feature engineering
 filepath = 'data/US_Accidents_March23.csv'
 def load_data(filepath):
-    df = pd.read_csv(filepath, nrows=1500000)
+    df = pd.read_csv(filepath)
     print("Data loaded successfully.")
     
     columns_to_drop = ['Source','Description','Civil_Twilight','Nautical_Twilight','Country',
@@ -101,14 +101,19 @@ def main():
     feature_engineering(df)
     
     #print(df.columns)
-    df_ml = df.copy()
+    
     #print(df_ml.columns)
-    df_ml = check_data_integrity(df_ml)
-    print(df['Severity'].value_counts())
+    
+    #df_ml = df.copy()
+    #df_ml = check_data_integrity(df_ml)
+    #print(df['Severity'].value_counts())
+    #train_test_split_data(df_ml)
+    
+    
     #print("\n Data Info after processing")
     #print(df_ml.info())
     #print(df_ml.columns.to_list())
-    train_test_split_data(df_ml)
+  
     
    
     
@@ -118,10 +123,10 @@ def main():
     #top_accident_locations(df)
     #accident_by_timeofday(df)
     
-    #print(df.columns.to_list())
+    print(df.columns.to_list())
     
     #uncomment later but for this will run faster
-    #df.to_csv('data/cleaned_US_Accidents_March23.csv', index=False)
+    df.to_csv('data/cleaned_US_Accidents_March23.csv', index=False)
     
 
     #print("\n Data Info")
