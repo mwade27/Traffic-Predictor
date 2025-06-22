@@ -88,7 +88,6 @@ def feature_engineering(df):
 
 
 
-    # drop Start_Lat and Start_Lng,Distance,City and Street since they have over 10k unique values
     
 
 
@@ -110,31 +109,16 @@ def main():
     #train_test_split_data(df_ml)
     
     
-    #print("\n Data Info after processing")
-    #print(df_ml.info())
-    #print(df_ml.columns.to_list())
-  
-    
    
-    
+  
     
     #severity_distribution(df)
     #weather_condition_distribution(df)
     #top_accident_locations(df)
     #accident_by_timeofday(df)
     
-    print(df.columns.to_list())
     
-    #uncomment later but for this will run faster
-    df.to_csv('data/cleaned_US_Accidents_March23.csv', index=False)
-    
-
-    #print("\n Data Info")
-    #print(df.info())
-    
-    #print("Summary Statistics")
-    #print(df.describe(include='all'))
-    
+   
     
 if __name__ == "__main__":
     main()
