@@ -2,6 +2,7 @@
 
 ## Overview
 Traffic-Predictor is a project that analyzes and predicts traffic patterns using the US Accidents dataset. The dataset contains information about accidents in the United States, including location, time, and contributing factors.
+Accident Severity was based on how long the normal flow of traffic was delayed by the traffic event.
 
 ## Dataset
 The dataset used for this project is sourced from Kaggle:
