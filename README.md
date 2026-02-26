@@ -31,12 +31,17 @@ data/                 # Contains raw and cleaned datasets
    ```
 
 ## Usage
-- **Data Cleaning and EDA**: Run `eda.py` to clean the dataset and perform exploratory data analysis.
-- **Model Training**: Use `mlmodel.py` to train and evaluate the machine learning model.
-- **Application**: Run `app.py` to start the application.
 
 ## Contributing
-Contributions are welcome! Feel free to open issues or submit pull requests.
+
+A traffic event is of one of the
+following types: accident, broken-vehicle2
+, congestion3
+, construction4
+,
+event5
+, lane-blocked6
+, or flow-incident7
 
 ## License
 This project is licensed under the MIT License.
