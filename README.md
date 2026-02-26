@@ -48,3 +48,12 @@ This project is licensed under the MIT License.
 
 ## Acknowledgments
 - Dataset: [US Accidents Dataset](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents)
+
+- Regular Expression Patterns. Given the description of traffic
+events of type accident, we were able to identify 27 regular expression patterns; 16 of them were extracted based on MapQuest
+data, and 11 from Bing data. Among the MapQuest patterns, the
+following expression corresponds to junctions (see Table 1): “. . . on
+. . . at exit . . .”, and the following pattern mostly10 determines an
+intersection: “. . . on . . . at . . .”. We consider a location an intersection if it is associated with at-least one of the following annotations
+(see Table 1): crossing, stop, or traffic signal. Among Bing regular expression patterns, two of them identify junctions: “at . . . exit . . .”
+and “ramp to . . .”. Table 2 shows several examples of accidents
